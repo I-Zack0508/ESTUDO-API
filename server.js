@@ -1,62 +1,56 @@
-// Importa o framework Express para criar o servidor HTTP
+// Importa ferramentas para criar o servidor e falar com o banco de dados
 import express from "express";
-
-// Importa o Prisma Client para interagir com o banco de dados
 import { PrismaClient } from "@prisma/client";
+import cors from "cors"; // Permite que o navegador acesse o servidor
 
-import cors from "cors"; // Importa o middleware CORS
-
-// Inicializa o aplicativo Express
+// Cria o servidor e conecta ao banco de dados
 const app = express();
-
-// Cria uma instância do Prisma Client para realizar operações no banco de dados
 const prisma = new PrismaClient();
 
-// Habilita CORS para todas as origens
-app.use(cors());
-
-// Configura o Express para interpretar requisições com corpo em JSON
+// Diz ao servidor para aceitar dados em formato JSON
 app.use(express.json());
 
-app.use(express.static("public")); // Serve arquivos estáticos da pasta "public"
+// Diz ao servidor para mostrar arquivos da pasta "public" (como HTML e CSS)
+app.use(express.static("public"));
 
-// Rota POST para criar um novo usuário
+// Permite que o navegador acesse o servidor de qualquer lugar
+app.use(cors());
+
+// Quando alguém quiser criar um usuário, o servidor pega os dados e salva no banco
 app.post("/users", async (req, res) => {
-    const { nome, email, senha } = req.body; // Extrai os dados enviados no corpo da requisição
+    const { nome, email, senha } = req.body;
     try {
-        const user = await prisma.user.create({
-            data: { nome, email, senha }, // Insere os dados no banco de dados
-        });
-        res.status(201).json(user); // Retorna o usuário criado com status HTTP 201 (Created)
+        const user = await prisma.user.create({ data: { nome, email, senha } });
+        res.status(201).json(user); // Diz que deu certo e mostra o usuário criado
     } catch (error) {
-        console.error("Erro ao criar usuário:", error); // Exibe o erro no console
-        res.status(500).json({ error: "Erro ao salvar usuário" }); // Retorna uma resposta de erro com status HTTP 500
+        console.error("Erro ao criar usuário:", error);
+        res.status(500).json({ error: "Erro ao salvar usuário" }); // Diz que algo deu errado
     }
 });
 
-// Rota GET para listar todos os usuários
+// Quando alguém quiser ver todos os usuários, o servidor pega do banco e mostra
 app.get("/users", async (req, res) => {
     try {
-        const users = await prisma.user.findMany(); // Busca todos os registros na tabela "User"
-        res.status(200).json(users); // Retorna a lista de usuários com status HTTP 200 (OK)
+        const users = await prisma.user.findMany();
+        res.status(200).json(users); // Diz que deu certo e mostra os usuários
     } catch (error) {
-        console.error("Erro ao buscar usuários:", error); // Exibe o erro no console
-        res.status(500).json({ error: "Erro ao buscar usuários" }); // Retorna uma resposta de erro com status HTTP 500
+        console.error("Erro ao buscar usuários:", error);
+        res.status(500).json({ error: "Erro ao buscar usuários" }); // Diz que algo deu errado
     }
 });
 
-// Rota DELETE para deletar todos os usuários
+// Quando alguém quiser apagar todos os usuários, o servidor apaga do banco
 app.delete("/users", async (req, res) => {
     try {
-        await prisma.user.deleteMany(); // Deleta todos os registros na tabela "User"
-        res.status(200).json({ message: "Todos os usuários foram deletados." }); // Retorna uma mensagem de sucesso
+        await prisma.user.deleteMany();
+        res.status(200).json({ message: "Todos os usuários foram deletados." }); // Diz que deu certo
     } catch (error) {
-        console.error("Erro ao deletar usuários:", error); // Exibe o erro no console
-        res.status(500).json({ error: "Erro ao deletar usuários" }); // Retorna uma resposta de erro com status HTTP 500
+        console.error("Erro ao deletar usuários:", error);
+        res.status(500).json({ error: "Erro ao deletar usuários" }); // Diz que algo deu errado
     }
 });
 
-// Configura o servidor para escutar requisições na porta 3000
+// Diz ao servidor para ficar escutando na porta 3000
 app.listen(3000, () => {
-    console.log("Servidor rodando na porta 3000"); // Exibe uma mensagem no console indicando que o servidor está rodando
+    console.log("Servidor rodando na porta 3000"); // Mostra que o servidor está funcionando
 });
