@@ -43,7 +43,14 @@ async function fetchUsers() {
 
         users.forEach((user) => {
             const li = document.createElement("li"); // Cria um novo elemento <li>
-            li.textContent = `${user.nome} - ${user.email}`; // Define o texto do <li> com o nome e email do usuário
+
+            // Define o texto do <li> com o nome e email do usuário
+            li.innerHTML = `
+             <strong>ID:</strong> ${user.id}<br>
+                <strong>NOME:</strong> ${user.nome}<br>
+                <strong>EMAIL:</strong> ${user.email}<br>
+                <hr> <!-- Adiciona uma linha horizontal para separar os usuários -->
+            ` ;
             userList.appendChild(li); // Adiciona o <li> à lista de usuários
         });
     } catch (error) {
