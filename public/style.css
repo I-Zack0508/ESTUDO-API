@@ -70,7 +70,7 @@ ul {
     margin: 5px 0;
     padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 50px;
+    border-radius: 25px;
     box-shadow: 10px 10px 62px 0px rgba(0, 0, 0, 0.75);
 }
 
@@ -78,4 +78,5 @@ li{
  background-color: #ffffff;
  padding: 10px;
  margin: 15px;
+ border-radius: 10px;
 }
