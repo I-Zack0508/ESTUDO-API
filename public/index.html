@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Acount</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h2>CRIAR UM USUÁRIO</h2>
+
+        <form id="userForm">
+            <input type="text" id="nome" placeholder="Nome" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="senha" placeholder="Senha" required>
+            <button type="submit">Criar usuário</button>
+        </form>
+        <p>caso já tenha conta faça <a href="login.html">Login</a></p>
+    </div>
+    
+  <div class="userList">
+    <h2>Usuários cadastrados</h2>
+    <ul id="userList"></ul>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
